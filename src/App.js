@@ -1,24 +1,23 @@
-import logo from './logo.svg';
 import './App.css';
+import Api from './Api/index.js';
+import Register from './Api/Register.js';
+import { useState } from 'react';
+import Login from './Api/Login.js';
 
 function App() {
+
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [registerToken, setregisterToken] = useState("");
+  const [loginToken, setloginToken] = useState("")
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <Api username={username} password={password} />
+      <Register username={username} password={password} setUsername={setUsername} setPassword={setPassword} setregisterToken={setregisterToken} registerToken={registerToken} />
+      <Login registerToken={registerToken} username={username} password={password} setregisterToken={setregisterToken} />
+    </div >
+
   );
 }
 
