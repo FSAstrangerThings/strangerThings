@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Login from "./Login"
 import Home from "./Home"
 import Profile from './Profile';
+import Register from './Register';
 
 // ask about merging branches and file collision, and package downloads, imports, etc
 // ask about getting a box shadow on the searchbar
@@ -23,6 +24,10 @@ function App() {
         <Switch>
           <Route exact path ='/'>
             <Login />
+          </Route>
+
+          <Route exact path ='/register'>
+            <Register />
           </Route>
 
           <Route exact path ='/home'>

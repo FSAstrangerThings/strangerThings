@@ -2,7 +2,7 @@ import React from 'react'
 import Post from "./Post"
 
 import { useState, useEffect } from 'react';
-import { fetchPosts } from './Api';
+import { fetchPosts } from './api';
 import PostSearchBar from './PostSearchBar';
 
 function Posts() {
