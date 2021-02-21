@@ -17,10 +17,12 @@ function Header() {
         <div className = "header">
             <h1 className = "header__title">Strangers Things</h1>
         
+            <Link to = "/home">
             <IconButton style = {{ borderRadius : '40%'}}>
-            <HomeIcon fontSize = "large" className = "header__icon" style={{ color: blue[100] }}
+            <HomeIcon fontSize = "large" className = "header__icon" style={{ color: blue[100] }}    
             />
             </IconButton>
+            </Link>
 
             <IconButton>
             <ListIcon fontSize = "large" className = "header__icon" style={{ color: blue[100] }}
