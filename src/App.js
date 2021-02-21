@@ -1,8 +1,8 @@
 import './App.css';
-import Api from './Api/index.js';
-import Register from './Api/Register.js';
+import Register from './Register.js';
 import { useState } from 'react';
-import Login from './Api/Login.js';
+import Login from './Login.js';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 function App() {
 
@@ -12,11 +12,21 @@ function App() {
   const [loginToken, setloginToken] = useState("")
 
   return (
+    // <Router>
     <div className="App">
-      <Api username={username} password={password} />
+
+      {/* <Switch>
+          <Route exact path="/register"> */}
       <Register username={username} password={password} setUsername={setUsername} setPassword={setPassword} setregisterToken={setregisterToken} registerToken={registerToken} />
-      <Login registerToken={registerToken} username={username} password={password} setregisterToken={setregisterToken} />
+      {/* </Route> */}
+
+
+      {/* <Route exact path="/"> */}
+      <Login registerToken={registerToken} username={username} password={password} setregisterToken={setregisterToken} loginToken={loginToken} setloginToken={setloginToken} />
+      {/* </Route> */}
+      {/* </Switch> */}
     </div >
+    // </Router>
 
   );
 }

@@ -3,21 +3,29 @@ import { useState } from 'react';
 
 const BASE_URL = "https://strangers-things.herokuapp.com/api/2010-unf-rm-web-pt/posts"
 
+export async function fetchPosts() {
+    try {
+        const response = await fetch(BASE_URL);
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        throw error;
+    }
+};
 
-function Api() {
+export const fetchLogin = async (username, password) => {
 
-    return useState(() => {
-        const fetchPosts = async () => {
-            const response = await fetch(BASE_URL);
-            const data = await response.json();
-            console.log(data);
-        }
-        fetchPosts();
-
-    }, []);
-
+    await fetch('https://strangers-things.herokuapp.com/api/2010-unf-rm-web-pt/users/login', {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            user: {
+                username: `${username}`,
+                password: `${password}`
+            }
+        })
+    }
+    )
 }
-
-
-
-export default Api;
