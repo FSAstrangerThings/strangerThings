@@ -3,8 +3,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import { useState } from 'react'
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -12,13 +11,14 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { Redirect } from 'react-router-dom'
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="#">
+        Strangers Things
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -46,73 +46,115 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Register() {
+function Register( { username, password, setUsername, setPassword, setregisterToken, registerToken} ) {
   const classes = useStyles();
 
+  const submitRegister = (username, password, confirmPassword) => {
+    console.log(username, password, confirmPassword);
+
+    fetch('https://strangers-things.herokuapp.com/api/2010-unf-rm-web-pt/users/register', {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            user: {
+                username: `${username}`,
+                password: `${password}`
+            }
+        })
+    }).then(response => response.json())
+        .then(result => {
+            console.log(result);
+            const userToken = result.data.token;
+            console.log(userToken);
+            setregisterToken(userToken);
+            localStorage.setItem(`${username}-Token`, userToken);
+            console.log(localStorage);
+            
+        })
+        .catch(console.error);
+
+
+
+}
+
+  const [confirmPassword, setconfirmPassword] = useState("");
+
+    if (registerToken) {
+        return <Redirect to = "/" />
+    }
+    
+
   return (
+    
     <Container component="main" maxWidth="xs">
+        <div className = 'login__intro'>
+                <h1 className = 'login__title' >
+                Strangers Things
+                </h1>
+                <h2 className = 'login__description'>
+                A marketplace for buying and selling goods for the people, by the people.
+                </h2>
+            </div>
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Register
         </Typography>
-        <form className={classes.form} noValidate>
+        
+        <form className={classes.form} 
+            id="register" onSubmit={e => {
+            e.preventDefault();
+            submitRegister(username, password, confirmPassword);
+        }}>
+          
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+          
+          <Grid item xs={12}>
               <TextField
                 variant="outlined"
-                required
                 fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
+                label="Create Username Here!"
+                
+                
+                
+                onChange={(event) => setUsername(event.target.value)} value={username} 
+                
               />
-            </Grid>
+           </Grid>
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                label="Enter Password"
+               
+                
+                
+                onChange={(event) => setPassword(event.target.value)} value={password} required minLength="8"
+                
               />
             </Grid>
+            
+            
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
+                label="Confirm Password"
+               
+               
+                onChange={(event) => setconfirmPassword(event.target.value) } value={confirmPassword}
+                        {...confirmPassword === password ? confirmPassword : null} required minLength="8"
+
               />
             </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
-              />
-            </Grid>
+
           </Grid>
           <Button
             type="submit"
@@ -125,7 +167,7 @@ function Register() {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
@@ -135,8 +177,11 @@ function Register() {
       <Box mt={5}>
         <Copyright />
       </Box>
+
     </Container>
+   
   );
+
 }
 
 export default Register

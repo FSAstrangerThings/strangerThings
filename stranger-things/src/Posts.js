@@ -9,7 +9,8 @@ function Posts() {
     const [posts, setPosts] = useState([]);
     useEffect(() => {
         fetchPosts()
-          .then(({ data }) => setPosts(data.posts));
+          .then(({ data }) => setPosts(data.posts))
+          
          // if youre using variable here include them in dependancy array 
         // setPosts(results?.data?.posts ?? []); // null coalesce
         // ?. -> optional chaining 

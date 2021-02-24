@@ -1,9 +1,11 @@
 import React from 'react'
 
-function Home() {
+function Home({storeloginUser}) {
+    localStorage.getItem(`${storeloginUser}`)
     return (
-        <div style ={{ marginTop:  '20%'}}>
-            <h1>Welcome to Strangers things "username" click here to view your profile!</h1>
+        
+        <div>
+            <h1>Welcome to Strangers things, {storeloginUser} click here to view your profile!</h1>
         </div>
     )
 }

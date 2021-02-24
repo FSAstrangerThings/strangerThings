@@ -11,12 +11,13 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { Redirect } from 'react-router-dom'
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="#">
         Strangers Things
       </Link>{' '}
       {new Date().getFullYear()}
@@ -45,8 +46,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login() {
+function Login({ username, password, registerToken, loginToken, setloginToken, setstoreloginUser, storeloginUser, storeloginPass, setstoreloginPass }) {
   const classes = useStyles();
+
+  if (loginToken) {
+    return <Redirect to = "/home" />
+}
+  const submitLogin = (username, password) => {
+    
+    fetch('https://strangers-things.herokuapp.com/api/2010-unf-rm-web-pt/users/login', {
+    method: "POST",
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        user: {
+            username: `${storeloginUser}`,
+            password: `${storeloginPass}`
+        }
+    })
+    }).then(response => response.json())
+    .then(result => {
+        console.log(result);
+        const loginToken = result.data.token;
+        setloginToken(loginToken);
+    })
+    .catch(console.error);
+  
+  
+}
 
   return (
       
@@ -59,6 +87,7 @@ function Login() {
                 A marketplace for buying and selling goods for the people, by the people.
                 </h2>
             </div>
+
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -67,17 +96,27 @@ function Login() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} 
+            onSubmit = {e => {
+                e.preventDefault();
+                function auth() {
+                    console.log(storeloginUser, storeloginPass);
+                    console.log(localStorage)
+                    localStorage.getItem(`${storeloginUser}-Token`, registerToken);
+                    console.log(registerToken);
+                    submitLogin(username, password)
+                }
+                auth()
+            }}>
+            
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            label="UserName"
             autoFocus
+            onChange={(event) => setstoreloginUser(event.target.value) } value={storeloginUser}
           />
           <TextField
             variant="outlined"
@@ -89,6 +128,7 @@ function Login() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={(event) => setstoreloginPass(event.target.value) } value={storeloginPass}
           />
          
           <Button
@@ -101,7 +141,7 @@ function Login() {
             Sign In
           </Button>
           <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/register" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
