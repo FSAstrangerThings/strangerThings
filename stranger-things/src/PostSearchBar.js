@@ -6,18 +6,19 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import { Link as RouterLink, Switch } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    "& .MuiTextField-root": {
-      margin: theme.spacing(1),
-      width: 400
-      
+    root: {
+        "& .MuiTextField-root": {
+            margin: theme.spacing(1),
+            width: 400
+
+        }
     }
-  }
 }));
 
 function PostSearchBar() {
+
     const classes = useStyles();
-    
+
     return (
     <div style = {
         {position: 'fixed', top: "3rem", backgroundColor : 'white', width : '100%', height: '6.5rem', 
@@ -45,7 +46,7 @@ function PostSearchBar() {
           </RouterLink>
           </Switch>
         </div>
-    </div>
+        </div>
     )
 }
 

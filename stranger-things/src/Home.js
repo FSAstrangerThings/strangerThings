@@ -1,11 +1,12 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import "./Home.css";
 import Button from '@material-ui/core/Button';
-import {Link} from 'react-router-dom';
 
 
-function Home({storeloginUser}) {
+function Home({ storeloginUser }) {
     localStorage.getItem(`${storeloginUser}`)
+
     return (
         
         <div className="welcome" style ={{marginTop: '12rem', display: 'flex', justifyContent: 'center',
@@ -26,3 +27,4 @@ function Home({storeloginUser}) {
 }
 
 export default Home
+

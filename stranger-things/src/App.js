@@ -7,6 +7,7 @@ import Login from "./Login"
 import Home from "./Home"
 import Profile from './Profile';
 import Register from './Register';
+import Messages from './Messages';
 import CreatePost from './CreatePost'
 import PostInfo from './PostInfo'
 
@@ -66,7 +67,10 @@ const Secured = ({
             loginToken={loginToken}
             storeloginUser={storeloginUser} />
         </Route>
-
+        
+        <Route exact path='/messages'>
+        <Messages postId={postId} loginToken={loginToken} setPostId={setPostId} message={message} setMessage={setMessage} />
+      </Route>
 
       </>
     );
@@ -74,12 +78,27 @@ const Secured = ({
 
 function App() {
 
+  /* I'd argue this is necessary */
+  const [loginToken, setloginToken] = useState("");
+
+  /* I'd argue this could be necessary but isn't necessarily */
+  const [storeloginUser, setstoreloginUser] = useState("");
+
+
+  /* I'd consider taking a look at this and see if this can be moved into their 
+    respective components */
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [registerToken, setregisterToken] = useState("");
-  const [loginToken, setloginToken] = useState("");
-  const [storeloginUser, setstoreloginUser] = useState("");
   const [storeloginPass, setstoreloginPass] = useState("");
+  const [postId, setPostId] = useState("")
+  const [message, setMessage] = useState("")
+  const [posts, setPosts] = useState([]);
+  const [replyId, setReplyId] = useState("");
+  const [userMessages, setUserMessages] = useState([]);
+  const [userPosts, setUserPosts] = useState([]);
+
+
   // const [postId, setPostId] = useState("")
   const [createPostTitle, setCreatePostTitle] = useState("")
   const [createPostDescription, setCreatePostDescription] = useState("")
@@ -93,22 +112,23 @@ function App() {
   return (
     <Router>
       <div className="App">
-      {/* the login component reroutes to profile (messages) */}
-      
-      
+        {/* the login component reroutes to profile (messages) */}
+
+
         <Switch>
-          <Route exact path ='/'>
-            <Login registerToken={registerToken} username={username} password={password} 
-            setregisterToken={setregisterToken} loginToken={loginToken} setloginToken={setloginToken}
-            storeloginUser={storeloginUser} setstoreloginUser={setstoreloginUser}
-            storeloginPass={storeloginPass} setstoreloginPass={setstoreloginPass}
+
+          <Route exact path='/'>
+            <Login registerToken={registerToken} username={username} password={password}
+              setregisterToken={setregisterToken} loginToken={loginToken} setloginToken={setloginToken}
+              storeloginUser={storeloginUser} setstoreloginUser={setstoreloginUser}
+              storeloginPass={storeloginPass} setstoreloginPass={setstoreloginPass}
             />
           </Route>
 
-          <Route exact path ='/register'>
-            <Register  
-            username={username} password={password} setUsername={setUsername} 
-            setPassword={setPassword} setregisterToken={setregisterToken} registerToken={registerToken} 
+          <Route exact path='/register'>
+            <Register
+              username={username} password={password} setUsername={setUsername}
+              setPassword={setPassword} setregisterToken={setregisterToken} registerToken={registerToken}
             />
           </Route>
           
@@ -149,12 +169,12 @@ function App() {
           
 
         </Switch>
-        
-      {/* adding post button routes to a new url /posts/add 
+
+        {/* adding post button routes to a new url /posts/add 
       when looking at an individual post the url changes to the post ID*/}
-      {/* Home */}
-      {/* Profile */}
-      {/* Logout */}
+        {/* Home */}
+        {/* Profile */}
+        {/* Logout */}
       </div>
     </Router>
   );

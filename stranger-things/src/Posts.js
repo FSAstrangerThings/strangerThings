@@ -4,6 +4,9 @@ import Post from "./Post"
 import { useState, useEffect } from 'react';
 import { fetchPosts, deletePost } from './api';
 import PostSearchBar from './PostSearchBar';
+import Messages from './Messages'
+
+function Posts({ postId, setPostId }) {
 
 // ctrl shift p to access everytthing
 function Posts({storeloginUser, loginToken}) {
@@ -63,6 +66,3 @@ function Posts({storeloginUser, loginToken}) {
     )
 }
 export default Posts;
-
-
-   

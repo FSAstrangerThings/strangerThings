@@ -14,15 +14,15 @@ import {Link} from 'react-router-dom';
 
 // center all post and also add a box shadow on each element
 const useStyles = makeStyles({
-  root: {
-    minWidth: 275
-  },
-  title: {
-    fontSize: 14
-  },
-  pos: {
-    marginBottom: 12
-  }
+    root: {
+        minWidth: 275
+    },
+    title: {
+        fontSize: 14
+    },
+    pos: {
+        marginBottom: 12
+    }
 });
 
 function Post({title, price, seller, location, description, postId, storeloginUser, postIsAuthor, setPostId, loginToken, onDeletePost}) {
@@ -60,6 +60,7 @@ function Post({title, price, seller, location, description, postId, storeloginUs
 
       return <div>
           <Button
+          onClick={() => setPostId(post._id)}
           variant="contained" 
           color="primary"
           className={classes.button}
@@ -114,6 +115,7 @@ function Post({title, price, seller, location, description, postId, storeloginUs
   );
 }
 
+<Link to="/message"></Link>
 
 
 export default Post

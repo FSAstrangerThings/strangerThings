@@ -1,24 +1,47 @@
-import React from 'react'
-import { fetchProfile } from './api'
+import React from 'react';
+import { fetchProfile } from './api';
+import { useEffect, useState } from 'react';
 
-function Profile({loginToken, storeloginUser}) {
-    const handleClick = () => {
-        localStorage.getItem(`${storeloginUser}-Token`, loginToken);
-        console.log(loginToken)
-        fetchProfile(loginToken).then((data) => { 
-                console.log(data);
-                
 
-        })
+
+function Profile({ loginToken, userMessages, setUserMessages, userPosts, setUserPosts }) {
+
+    const [profile, setProfile] = useState({ data: {} })
+
+    useEffect(async () => {
+        try {
+            const data = await fetchProfile(loginToken);
+            console.log(data);
+            let userMessage = data.data.messages;
+            setUserMessages(userMessage);
+            let userPost = data.data.posts;
+            setUserPosts(userPost);
+            setProfile(data)
+        } catch (error) {
+            console.error(error);
         }
-        
+    }, [])
+
+    const {
+        data: {
+            messages,
+            posts,
+            username,
+            cohort,
+            title,
+            price,
+            description,
+        },
+    } = profile
 
     return (
         <div>
-            <button onClick = {handleClick} ></button>
-            <h1>Maps through all personal sent and recieved post and messages</h1>
+            {(messages || []).map((m, i) => <div key={i}>{m.content}</div>)}
+            {(posts || []).map((p, i) => <div key={i}>{p}</div>)}
+            {/* {posts.map(post => <Post title={posts.title} price={post.price} seller={post.seller} location={post.location}
+                    description={post.description} post={post} />)} */}
+            {username}
         </div>
-
     )
 }
 
