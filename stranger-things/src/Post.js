@@ -7,6 +7,9 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Icon from '@material-ui/core/Icon';
 import Box from '@material-ui/core/Box';
+import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
+import {Link} from 'react-router-dom';
 
 
 // center all post and also add a box shadow on each element
@@ -22,11 +25,58 @@ const useStyles = makeStyles({
   }
 });
 
-function Post({title, price, seller, location, description}) {
+function Post({title, price, seller, location, description, postId, storeloginUser, postIsAuthor, setPostId, loginToken, onDeletePost}) {
   const classes = useStyles();  // <<< this is how you grab a function out of scope
+  console.log(postId)
+  console.log('author check', postIsAuthor)
+  // setPostId(postId)
 
+
+
+  const renderPostIsAuthor = (postIsAuthor, postId, loginToken) => {
+    if(postIsAuthor) {
+      return <div>
+          <Link to  = {`/posts/edit/${postId}`}>
+
+          <Button variant="outlined" color="primary" style ={{ marginRight: '1.5rem'}}>
+          Edit Post
+          </Button>
+
+          </Link>
+
+          <Button
+          variant="contained"
+          color="secondary"
+          className={classes.button}
+          startIcon={<DeleteIcon />}
+          onClick= {() => onDeletePost(postId)}
+          >
+          Delete
+          </Button>
+
+     </div>
+
+    } else {
+
+      return <div>
+          <Button
+          variant="contained" 
+          color="primary"
+          className={classes.button}
+          endIcon={<Icon>send</Icon>}
+          >
+          Send
+          </Button>
+
+      </div>
+    }
+
+    
+  }
+    
   return (
-    <Card className={classes.root} style = {{
+
+    <Card  className={classes.root} style = {{
         padding: '4%',
         marginBottom: '2%',
         marginRight: '25%',
@@ -55,14 +105,10 @@ function Post({title, price, seller, location, description}) {
         </Typography>
       </CardContent>
       <CardActions>
-      <Button
-        variant="contained" // do theming on button to make it prettier
-        color="primary"
-        className={classes.button}
-        endIcon={<Icon>send</Icon>}
-      >
-        Send
-      </Button>
+
+
+      {renderPostIsAuthor(postIsAuthor, postId, loginToken)}
+
       </CardActions>
     </Card>
   );

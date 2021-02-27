@@ -5,10 +5,7 @@ import { IconButton } from '@material-ui/core';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import ListIcon from '@material-ui/icons/List';
 import { blue } from '@material-ui/core/colors';
-import {Link} from 'react-router-dom';
-import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-
-
+import { Link } from 'react-router-dom';
 
 
 function Header() {
@@ -24,14 +21,14 @@ function Header() {
             </IconButton>
             </Link>
             
-            <Link to = "./posts">
+            <Link to = "/posts">
             <IconButton>
             <ListIcon fontSize = "large" className = "header__icon" style={{ color: blue[100] }}
             />
             </IconButton>
             </Link>
 
-            <Link to = "./profile">
+            <Link to = "/profile">
             <IconButton>
             <MailOutlineIcon fontSize = "large" className = "header__icon" style={{ color: blue[100] }}/>
             </IconButton>

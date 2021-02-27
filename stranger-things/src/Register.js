@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Register( { username, password, setUsername, setPassword, setregisterToken, registerToken} ) {
+function Register( { username, password, setUsername, setPassword, setregisterToken, registerToken } ) {
   const classes = useStyles();
 
   const submitRegister = (username, password, confirmPassword) => {
@@ -110,6 +110,7 @@ function Register( { username, password, setUsername, setPassword, setregisterTo
             id="register" onSubmit={e => {
             e.preventDefault();
             submitRegister(username, password, confirmPassword);
+
         }}>
           
           <Grid container spacing={2}>

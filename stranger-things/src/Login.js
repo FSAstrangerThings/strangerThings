@@ -51,7 +51,7 @@ function Login({ username, password, registerToken, loginToken, setloginToken, s
 
   if (loginToken) {
     return <Redirect to = "/home" />
-}
+  }
   const submitLogin = (username, password) => {
     
     fetch('https://strangers-things.herokuapp.com/api/2010-unf-rm-web-pt/users/login', {
@@ -69,6 +69,7 @@ function Login({ username, password, registerToken, loginToken, setloginToken, s
     .then(result => {
         console.log(result);
         const loginToken = result.data.token;
+        console.log(loginToken)
         setloginToken(loginToken);
     })
     .catch(console.error);
