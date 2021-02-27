@@ -2,18 +2,96 @@ import Posts from "../Posts";
 
 const BASE_URL = "https://strangers-things.herokuapp.com/api/2010-unf-rm-web-pt";
 
+    
+export const fetchPosts = async (loginToken, postId) => {
+    const response = await fetch(`${BASE_URL}/posts/${postId ? postId : ""}`, {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${loginToken}`
+      }
+    });
+    const data = await response.json();
+    // console.log("PostList", data.data.posts)
+    return data;
 
-
-
-export async function fetchPosts() {
-    try {
-        const response = await fetch(`${BASE_URL}/posts`);
-        const results = await response.json();
-        return results.data;
-    } catch (error) {
-        throw error;
-    }
 }
+
+export const createPost = async ({
+    loginToken,
+    createPostTitle,
+    createPostDescription,
+    createPostPrice,
+    createPostLocation
+  }) => {
+    fetch(`${BASE_URL}/posts`, {
+  method: "POST",
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${loginToken}`
+  },
+  body: JSON.stringify({
+    post: {
+      title: `${createPostTitle}`,
+      description: `${createPostDescription}`,
+      price: `${createPostPrice}`,
+      location: `${createPostLocation}`,
+      willDeliver: true
+    }
+  })
+}).then(response => response.json())
+.then(result => {
+  console.log(result);
+})
+.catch(console.error);
+}
+
+
+export const editPost = async ({
+  loginToken,
+  postId,
+  editTitle,
+  editDescription,
+  editPrice,
+  editLocation
+}) => {
+  fetch(`${BASE_URL}/posts/${postId}`, {
+  method: "PATCH",
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${loginToken}`
+  },
+  body: JSON.stringify({
+    post: {
+      title: `${editTitle}`,
+      description: `${editDescription}`,
+      price: `${editPrice}`,
+      location: `${editLocation}`,
+      willDeliver: true
+    }
+  })
+}).then(response => response.json())
+  .then(result => {
+    console.log(result);
+  })
+  .catch(console.error);
+}
+
+export const deletePost = async (loginToken, postId) => {
+  fetch(`${BASE_URL}/posts/${postId}`, {
+  method: "DELETE",
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${loginToken}`
+  }
+}).then(response => response.json())
+  .then(result => {
+    console.log(result);
+  })
+  .catch(console.error);
+}
+
+
 
 export const fetchLogin = async (username, password) => {
 
@@ -33,15 +111,26 @@ export const fetchLogin = async (username, password) => {
 }
 
 export const fetchProfile = async (loginToken) => {
-
-    const resp = await fetch('https://strangers-things.herokuapp.com/api/2010-unf-rm-web-pt/users/me', {
+    try{
+    const response = await fetch('https://strangers-things.herokuapp.com/api/2010-unf-rm-web-pt/users/me', {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${loginToken}`
         },
-    })
-    const data = await resp.json();
-    return data;
+      })
+      const data = await response.json()
+      console.log("profile", data)
+      return data
+    } catch (error) {
+        console.error(error)
+    }
+
+    // use promise.all when you have two separate fetches 
+    //   .then(response => response.json())
+    //     .then(result => {
+    //       console.log(result);
+    //     })
+    //     .catch(console.error);
 }
 
 export async function createMessage(postId, loginToken, message) {

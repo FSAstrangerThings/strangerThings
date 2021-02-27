@@ -1,24 +1,28 @@
 import React from 'react'
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { IconButton } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import "./Home.css";
+import Button from '@material-ui/core/Button';
+
 
 function Home({ storeloginUser }) {
     localStorage.getItem(`${storeloginUser}`)
 
     return (
+        
+        <div className="welcome" style ={{marginTop: '12rem', display: 'flex', justifyContent: 'center',
+            flexDirection: 'column',
+            alignItems: 'center'}}>
 
-        <div>
-            <h1>Welcome to Strangers things, {storeloginUser} click here to view your profile! <Link to="./profile">
-                <IconButton style={{ borderRadius: '40%' }}>
-                    <AccountCircleIcon fontSize="large" style={{
-                        fontSize: "50",
-                        fill: '#6dcca1',
-                    }}
-                    />
-                </IconButton>
-            </Link></h1>
+            <h1>Welcome to Strangers things, {storeloginUser} click here to view your profile!</h1>
+            
+            <Link to  = "/profile">
+            <Button variant="outlined" size="large" color="primary" style = {{marginTop: '5rem'}} >
+            View Profile!
+            </Button>
+            </Link>
         </div>
+
+
     )
 }
 

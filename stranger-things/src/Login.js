@@ -49,10 +49,11 @@ const useStyles = makeStyles((theme) => ({
 function Login({ username, password, registerToken, loginToken, setloginToken, setstoreloginUser, storeloginUser, storeloginPass, setstoreloginPass }) {
     const classes = useStyles();
 
-    if (loginToken) {
-        return <Redirect to="/home" />
-    }
-    const submitLogin = () => {
+  if (loginToken) {
+    return <Redirect to = "/home" />
+  }
+  const submitLogin = (username, password) => {
+
 
         fetch('https://strangers-things.herokuapp.com/api/2010-unf-rm-web-pt/users/login', {
             method: "POST",
@@ -154,8 +155,7 @@ function Login({ username, password, registerToken, loginToken, setloginToken, s
             </Box>
         </Container>
     );
-}
-
+            }
 
 // function Login() {
 //     return (

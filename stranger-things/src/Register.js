@@ -46,34 +46,34 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Register({ username, password, setUsername, setPassword, setregisterToken, registerToken }) {
-    const classes = useStyles();
+function Register( { username, password, setUsername, setPassword, setregisterToken, registerToken } ) {
+  const classes = useStyles();
 
-    const submitRegister = (username, password, confirmPassword) => {
-        console.log(username, password, confirmPassword);
+  const submitRegister = (username, password, confirmPassword) => {
+    console.log(username, password, confirmPassword);
 
-        fetch('https://strangers-things.herokuapp.com/api/2010-unf-rm-web-pt/users/register', {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                user: {
-                    username: `${username}`,
-                    password: `${password}`
-                }
-            })
-        }).then(response => response.json())
-            .then(result => {
-                console.log(result);
-                const userToken = result.data.token;
-                console.log(userToken);
-                setregisterToken(userToken);
-                localStorage.setItem(`${username}-Token`, userToken);
-                console.log(localStorage);
-
-            })
-            .catch(console.error);
+    fetch('https://strangers-things.herokuapp.com/api/2010-unf-rm-web-pt/users/register', {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            user: {
+                username: `${username}`,
+                password: `${password}`
+            }
+        })
+    }).then(response => response.json())
+        .then(result => {
+            console.log(result);
+            const userToken = result.data.token;
+            console.log(userToken);
+            setregisterToken(userToken);
+            localStorage.setItem(`${username}-Token`, userToken);
+            console.log(localStorage);
+            
+        })
+        .catch(console.error);
 
 
 
@@ -105,65 +105,66 @@ function Register({ username, password, setUsername, setPassword, setregisterTok
                 <Typography component="h1" variant="h5">
                     Register
         </Typography>
+        
+        <form className={classes.form} 
+            id="register" onSubmit={e => {
+            e.preventDefault();
+            submitRegister(username, password, confirmPassword);
 
-                <form className={classes.form}
-                    id="register" onSubmit={e => {
-                        e.preventDefault();
-                        submitRegister(username, password, confirmPassword);
-                    }}>
+        }}>
+          
+          <Grid container spacing={2}>
+          
+          <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                fullWidth
+                label="Create Username Here!"
+                
+                
+                
+                onChange={(event) => setUsername(event.target.value)} value={username} 
+                
+              />
+           </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                label="Enter Password"
+               
+                
+                
+                onChange={(event) => setPassword(event.target.value)} value={password} required minLength="8"
+                
+              />
+            </Grid>
+            
+            
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                label="Confirm Password"
+               
+               
+                onChange={(event) => setconfirmPassword(event.target.value) } value={confirmPassword}
+                        {...confirmPassword === password ? confirmPassword : null} required minLength="8"
 
-                    <Grid container spacing={2}>
+              />
+            </Grid>
 
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                fullWidth
-                                label="Create Username Here!"
-
-
-
-                                onChange={(event) => setUsername(event.target.value)} value={username}
-
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                label="Enter Password"
-
-
-
-                                onChange={(event) => setPassword(event.target.value)} value={password} required minLength="8"
-
-                            />
-                        </Grid>
-
-
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                label="Confirm Password"
-
-
-                                onChange={(event) => setconfirmPassword(event.target.value)} value={confirmPassword}
-                                {...confirmPassword === password ? confirmPassword : null} required minLength="8"
-
-                            />
-                        </Grid>
-
-                    </Grid>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                    >
-                        Sign Up
+          </Grid>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Sign Up
           </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
