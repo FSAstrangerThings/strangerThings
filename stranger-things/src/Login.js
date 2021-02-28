@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import './Login.css'
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -49,9 +49,11 @@ const useStyles = makeStyles((theme) => ({
 function Login({ username, password, registerToken, loginToken, setloginToken, setstoreloginUser, storeloginUser, storeloginPass, setstoreloginPass }) {
     const classes = useStyles();
 
+
     if (loginToken) {
-        return <Redirect to="/home" />
-    }
+        return <Redirect to="/home" />          
+    } 
+
     const submitLogin = (username, password) => {
 
 
@@ -111,6 +113,7 @@ function Login({ username, password, registerToken, loginToken, setloginToken, s
                             submitLogin(username, password)
                         }
                         auth()
+                        
                     }}>
 
                     <TextField
