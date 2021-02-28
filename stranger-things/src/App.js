@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import Header from "./Header"
 import './App.css';
 import Posts from "./Posts";
@@ -17,72 +17,78 @@ import PostInfo from './PostInfo'
 // why does promise.all work and fetch does not
 
 const Secured = ({
-    storeloginUser, 
-    loginToken, 
-    createPostTitle, 
-    setCreatePostTitle, 
-    createPostDescription, 
-    setCreatePostDescription, 
-    createPostPrice, 
-    setCreatePostPrice, 
-    createPostLocation, 
-    setCreatePostLocation
-  }) => {
-    console.log('SECURED', loginToken, storeloginUser)
+  storeloginUser,
+  loginToken,
+  createPostTitle,
+  setCreatePostTitle,
+  createPostDescription,
+  setCreatePostDescription,
+  createPostPrice,
+  setCreatePostPrice,
+  createPostLocation,
+  setCreatePostLocation,
+  posts,
+  setPostId,
+  userMessages,
+  setUserMessages,
+  userPosts,
+  setUserPosts,
+}) => {
+  console.log('SECURED', loginToken, storeloginUser)
 
-    if (!loginToken && !storeloginUser) {
-      return <Redirect to='/' />
-    }
+  if (!loginToken && !storeloginUser) {
+    return <Redirect to='/' />
+  }
 
-    return (
-      <>
-        <Header />
-        <Route exact path='/home'>
-          <Home storeloginUser={storeloginUser} />
-        </Route>
-
-        <Route exact path='/posts'>
-          <Posts 
-          storeloginUser={storeloginUser} 
-          loginToken={loginToken}
-          // postId={postId}
-          // setPostId={setPostId}
-          />
-        </Route>
-
-        <Route exact path='/profile'>
-          <Profile loginToken={loginToken} storeloginUser={storeloginUser} />
-        </Route>
-
-        <Route exact path='/posts/add'>
-          <CreatePost
-            createPostTitle={createPostTitle}
-            setCreatePostTitle={setCreatePostTitle}
-            createPostDescription={createPostDescription}
-            setCreatePostDescription={setCreatePostDescription}
-            createPostPrice={createPostPrice}
-            setCreatePostPrice={setCreatePostPrice}
-            createPostLocation={createPostLocation}
-            setCreatePostLocation={setCreatePostLocation}
-            loginToken={loginToken}
-            storeloginUser={storeloginUser} />
-        </Route>
-        
-        <Route exact path='/messages'>
-        <Messages postId={postId} loginToken={loginToken} setPostId={setPostId} message={message} setMessage={setMessage} />
+  return (
+    <>
+      <Header />
+      <Route exact path='/home'>
+        <Home storeloginUser={storeloginUser} />
       </Route>
 
-      </>
-    );
-  }
+      <Route exact path='/posts'>
+        <Posts
+          storeloginUser={storeloginUser}
+          loginToken={loginToken}
+        // postId={postId}
+        // setPostId={setPostId}
+        />
+      </Route>
+
+      <Route exact path='/profile'>
+        <Profile loginToken={loginToken} />
+      </Route>
+
+      <Route exact path='/posts/add'>
+        <CreatePost
+          createPostTitle={createPostTitle}
+          setCreatePostTitle={setCreatePostTitle}
+          createPostDescription={createPostDescription}
+          setCreatePostDescription={setCreatePostDescription}
+          createPostPrice={createPostPrice}
+          setCreatePostPrice={setCreatePostPrice}
+          createPostLocation={createPostLocation}
+          setCreatePostLocation={setCreatePostLocation}
+          loginToken={loginToken}
+          storeloginUser={storeloginUser} />
+      </Route>
+
+      <Route exact path='/messages/:postId'>
+        <Messages loginToken={loginToken} posts={posts} setPostId={setPostId} userMessages={userMessages} setUserMessages={setUserMessages} userPosts={userPosts} setUserPosts={setUserPosts} />
+      </Route>
+
+    </>
+  );
+}
 
 function App() {
 
   /* I'd argue this is necessary */
-  const [loginToken, setloginToken] = useState("");
+  const [loginToken, setloginToken] = useState(localStorage.getItem("token"));
 
   /* I'd argue this could be necessary but isn't necessarily */
-  const [storeloginUser, setstoreloginUser] = useState("");
+  const [storeloginUser, setstoreloginUser] = useState(localStorage.getItem("username"));
 
 
   /* I'd consider taking a look at this and see if this can be moved into their 
@@ -105,9 +111,9 @@ function App() {
   const [createPostPrice, setCreatePostPrice] = useState("")
   const [createPostLocation, setCreatePostLocation] = useState("")
 
-  
+
   // const [message, setMessage] = useState("")
- 
+
   console.log('APP', loginToken, storeloginUser)
   return (
     <Router>
@@ -131,30 +137,16 @@ function App() {
               setPassword={setPassword} setregisterToken={setregisterToken} registerToken={registerToken}
             />
           </Route>
-          
-          <Route exact path='/posts/edit/:postId'>
-          <PostInfo 
-            loginToken={loginToken}
-          />
-          </Route>
-          
-          <Secured 
-            storeloginUser = {storeloginUser} 
-            loginToken={loginToken} 
-            createPostTitle={createPostTitle} 
-            setCreatePostTitle={setCreatePostTitle} 
-            createPostDescription={createPostDescription} 
-            setCreatePostDescription={setCreatePostDescription}
-            createPostPrice={createPostPrice} 
-            setCreatePostPrice={setCreatePostPrice} 
-            createPostLocation={createPostLocation}
-            setCreatePostLocation={setCreatePostLocation}
-            // postId={postId}
-            // setPostId={setPostId}
-          />
 
-        <Route exact path='/posts/add'>
-          <CreatePost
+          <Route exact path='/posts/edit/:postId'>
+            <PostInfo
+              loginToken={loginToken}
+            />
+          </Route>
+
+          <Secured
+            storeloginUser={storeloginUser}
+            loginToken={loginToken}
             createPostTitle={createPostTitle}
             setCreatePostTitle={setCreatePostTitle}
             createPostDescription={createPostDescription}
@@ -163,10 +155,29 @@ function App() {
             setCreatePostPrice={setCreatePostPrice}
             createPostLocation={createPostLocation}
             setCreatePostLocation={setCreatePostLocation}
-            loginToken={loginToken}
-            storeloginUser={storeloginUser} />
-        </Route>
-          
+            posts={posts}
+            userMessages={userMessages}
+            setUserMessages={setUserMessages}
+            userPosts={userPosts}
+            setUserPosts={setUserPosts}
+          // postId={postId}
+          // setPostId={setPostId}
+          />
+
+          <Route exact path='/posts/add'>
+            <CreatePost
+              createPostTitle={createPostTitle}
+              setCreatePostTitle={setCreatePostTitle}
+              createPostDescription={createPostDescription}
+              setCreatePostDescription={setCreatePostDescription}
+              createPostPrice={createPostPrice}
+              setCreatePostPrice={setCreatePostPrice}
+              createPostLocation={createPostLocation}
+              setCreatePostLocation={setCreatePostLocation}
+              loginToken={loginToken}
+              storeloginUser={storeloginUser} />
+          </Route>
+
 
         </Switch>
 
