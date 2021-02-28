@@ -6,11 +6,17 @@ import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import ListIcon from '@material-ui/icons/List';
 import { blue } from '@material-ui/core/colors';
 import { Link } from 'react-router-dom';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 
-function Header() {
+function reloadPage (loginToken) {
+        localStorage.clear()
+        window.location.reload(true)
+    
+}
 
+function Header(loginToken) {
     return (
 
         <div className="header">
@@ -22,26 +28,28 @@ function Header() {
                     />
                 </IconButton>
             </Link>
-
-            <Link to="/posts">
-                <IconButton>
-                    <ListIcon fontSize="large" className="header__icon" style={{ color: blue[100] }}
-                    />
-                </IconButton>
+            
+            <Link to = "/posts">
+            <IconButton>
+            <ListIcon fontSize = "large" className = "header__icon" style={{ color: blue[100] }}
+            />
+            </IconButton>
             </Link>
 
-            <Link to="/profile">
-                <IconButton>
-                    <MailOutlineIcon fontSize="large" className="header__icon" style={{ color: blue[100] }} />
-                </IconButton>
+            <Link to = "/profile">
+            <IconButton>
+            <MailOutlineIcon fontSize = "large" className = "header__icon" style={{ color: blue[100] }}/>
+            </IconButton>
             </Link>
-            <Link Link to="/">
-                <IconButton>
-                    <ExitToAppIcon fontSize="large" className="header__icon" style={{ color: blue[100] }}
-                        onClick={() => localStorage.clear("token")}
-                    />
-                </IconButton>
-            </Link>
+
+            
+            <IconButton onClick={() =>  reloadPage(loginToken)} >
+            <ExitToAppIcon fontSize = "large" className = "header__icon" style={{ color: blue[100] }}
+            
+            />
+            </IconButton>
+            
+
         </div>
 
     )
