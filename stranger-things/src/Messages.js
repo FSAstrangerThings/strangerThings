@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { createMessage } from './api';
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -8,7 +8,8 @@ import Box from '@material-ui/core/Box';
 import { makeStyle } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { fetchPosts } from './api';
 
 const useStyles = makeStyles({
     root: {
@@ -25,10 +26,26 @@ const useStyles = makeStyles({
 
 
 const Messages = (props) => {
-    const { message, setMessage, loginToken, postId, title, price, seller, location, description } = props
+    const { loginToken } = props;
+    const { postId } = useParams();
+    const [post, setPost] = useState({});
+    const [message, setMessage] = useState("");
 
-    console.log(props)
     const classes = useStyles();
+
+    useEffect(() => {
+        async function getPost() {
+            const { data: { posts } } = await fetchPosts(loginToken);
+
+            const post = posts.find(p => p._id === postId);
+            setPost(post);
+        }
+
+        getPost();
+
+    }, [postId])
+
+    console.log(post);
 
     const sendMessage = async (event) => {
         event.preventDefault();
@@ -36,7 +53,6 @@ const Messages = (props) => {
             const data = await createMessage(postId, loginToken, message);
             console.log(data);
             setMessage("");
-            console.log(postId);
         } catch (error) {
             console.error(error);
         }
@@ -54,22 +70,22 @@ const Messages = (props) => {
             }}>
                 <CardContent>
                     <Typography variant="h5" component="h2">
-                        {title}
+                        {post.title}
                     </Typography>
                     <Typography className={classes.title}
                         color="textSecondary"
                         gutterBottom
                     >
-                        {description}
+                        {post.description}
                     </Typography>
                     <Typography variant="body2" component="p">
-                        <Box fontWeight='fontWeightBold' display="inline"> Price : </Box> {price}
+                        <Box fontWeight='fontWeightBold' display="inline"> Price : </Box> {post.price}
                     </Typography>
                     <Typography variant="body2" component="p">
-                        <Box fontWeight='fontWeightBold' display="inline">Seller : </Box> {seller}
+                        <Box fontWeight='fontWeightBold' display="inline">Seller : </Box> {post.seller}
                     </Typography>
                     <Typography variant="body2" component="p">
-                        <Box fontWeight='fontWeightBold' display="inline"> Location : </Box> {location}
+                        <Box fontWeight='fontWeightBold' display="inline"> Location : </Box> {post.location}
                     </Typography>
                 </CardContent>
             </Card>
@@ -95,22 +111,10 @@ const Messages = (props) => {
                     color="primary"
                     className={classes.button}
                     style={{ color: "#E9F1F7" }}> Send Message
-                </Button>
-
+            </Button>
             </form>
         </div>
-        //<form onSubmit={sendMessage}>
-        //       <input */}
-        //         type="text"
-        //         placeholder="Type Your Message Here"
-        //         value={message}
-        //         onChange={(event) => setMessage(event.target.value)}
-        //         required
-        //     />
-        //     <button type="submit">
-        //         Send Message
-        // </button>
-        // </form>
     );
+
 }
 export default Messages;
