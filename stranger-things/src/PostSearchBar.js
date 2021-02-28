@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 // then, in our jsx below... map over postsToDisplay instead of posts
 
-function PostSearchBar({ }) {
+function PostSearchBar({ searchTerm, setSearchTerm }) {
 
 
     // const [searchTerm, setSearchTerm] = useState('');
@@ -72,7 +72,8 @@ function PostSearchBar({ }) {
 
                 <form className={classes.root}>
                     <TextField
-                        // onChange={(event) => setSearchTerm(event.target.value)} value={searchTerm}
+                        onChange={(event) => setSearchTerm(event.target.value)}
+                        value={searchTerm}
                         label="Search Posts!"
                         id="standard-size-normal"
                         style={{ marginTop: '0' }}

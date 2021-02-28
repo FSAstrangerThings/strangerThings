@@ -7,8 +7,9 @@ import PostSearchBar from './PostSearchBar';
 function Posts({ postId, setPostId, loginToken }) {
 
     // ctrl shift p to access everything 
+    const [posts, setPosts] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
 
-    const [posts, setPosts] = useState([{}]);
     useEffect(() => {
         fetchPosts(loginToken)
             .then(({ data }) => setPosts(data.posts))
@@ -22,8 +23,32 @@ function Posts({ postId, setPostId, loginToken }) {
     // try to get the post centered, and give them all a box shadow
 
 
+    const postMatches = (post, text) => {
+        console.log(post);
+        console.log(text);
+        const lowerCaseText = text.toLowerCase();
+        const description = post?.description.toLowerCase();
+        const location = post?.location.toLowerCase();
+        const title = post?.title.toLowerCase();
+        if (
+            description.includes(lowerCaseText) ||
+            location.includes(lowerCaseText) ||
+            title.includes(lowerCaseText)
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    const filteredPosts = posts.filter((post) => postMatches(post, searchTerm));
+    const postsToDisplay = searchTerm.length ? filteredPosts : posts;
+
+
 
     console.log(posts)
+
+
     console.log(posts.isAuthor)
     const onDeletePost = (postId) => {
         deletePost(loginToken, postId)
@@ -40,7 +65,7 @@ function Posts({ postId, setPostId, loginToken }) {
                 marginBottom: '4.5%',
                 marginTop: "2.5rem"
             }}>
-                <PostSearchBar posts={posts} />
+                <PostSearchBar posts={posts} setPosts={setPosts} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
             </div>
             <div className="postsList" style={{
                 display: 'flex',
@@ -48,7 +73,7 @@ function Posts({ postId, setPostId, loginToken }) {
                 marginLeft: '25%',
             }}>
                 {/* needs a search bar and an add post button at the top */}
-                {posts.map((post, index) => <Post
+                {postsToDisplay.map((post, index) => <Post
                     key={`post-${index}`}
                     postIsAuthor={post.isAuthor}
                     postId={post._id}

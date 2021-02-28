@@ -36,6 +36,7 @@ function Post({ title, price, seller, location, description, postId, storeloginU
 
   const renderPostIsAuthor = (postIsAuthor, postId, loginToken) => {
     if (postIsAuthor) {
+      // postsToDisplay.map((post, index) => {
       return <div>
         <Link to={`/posts/edit/${postId}`}>
 
@@ -72,7 +73,7 @@ function Post({ title, price, seller, location, description, postId, storeloginU
         </Link>
       </div>
     }
-
+    // })
 
   }
 

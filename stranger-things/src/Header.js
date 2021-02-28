@@ -9,11 +9,8 @@ import { Link } from 'react-router-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
-function reloadPage() {
-    window.location.reload(true)
-}
-
 function Header() {
+
     return (
 
         <div className="header">
@@ -38,11 +35,13 @@ function Header() {
                     <MailOutlineIcon fontSize="large" className="header__icon" style={{ color: blue[100] }} />
                 </IconButton>
             </Link>
-            <IconButton>
-                <ExitToAppIcon fontSize="large" className="header__icon" style={{ color: blue[100] }}
-                    onClick={() => localStorage.clear(), reloadPage}
-                />
-            </IconButton>
+            <Link Link to="/">
+                <IconButton>
+                    <ExitToAppIcon fontSize="large" className="header__icon" style={{ color: blue[100] }}
+                        onClick={() => localStorage.clear("token")}
+                    />
+                </IconButton>
+            </Link>
         </div>
 
     )
