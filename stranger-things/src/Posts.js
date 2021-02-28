@@ -20,6 +20,9 @@ function Posts({ postId, setPostId, loginToken }) {
     // ask ballyn if our files will collide on github merging? how does that work??
     // ******************USE BACKDROP MATERIAL UI FOR POST CREATION**********************
     // try to get the post centered, and give them all a box shadow
+
+
+
     console.log(posts)
     console.log(posts.isAuthor)
     const onDeletePost = (postId) => {
@@ -37,7 +40,7 @@ function Posts({ postId, setPostId, loginToken }) {
                 marginBottom: '4.5%',
                 marginTop: "2.5rem"
             }}>
-                <PostSearchBar />
+                <PostSearchBar posts={posts} />
             </div>
             <div className="postsList" style={{
                 display: 'flex',

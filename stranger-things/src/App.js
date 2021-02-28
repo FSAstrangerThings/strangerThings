@@ -33,6 +33,9 @@ const Secured = ({
   setUserMessages,
   userPosts,
   setUserPosts,
+  message,
+  setMessage,
+  setUserMessage,
 }) => {
   console.log('SECURED', loginToken, storeloginUser)
 
@@ -75,7 +78,7 @@ const Secured = ({
       </Route>
 
       <Route exact path='/messages/:postId'>
-        <Messages loginToken={loginToken} posts={posts} setPostId={setPostId} userMessages={userMessages} setUserMessages={setUserMessages} userPosts={userPosts} setUserPosts={setUserPosts} />
+        <Messages loginToken={loginToken} posts={posts} setPostId={setPostId} userMessages={userMessages} setUserMessages={setUserMessages} userPosts={userPosts} setUserPosts={setUserPosts} message={message} setMessage={setMessage} setUserMessage={setUserMessage} />
       </Route>
 
     </>
@@ -160,6 +163,8 @@ function App() {
             setUserMessages={setUserMessages}
             userPosts={userPosts}
             setUserPosts={setUserPosts}
+            message={message}
+            setMessage={setMessage}
           // postId={postId}
           // setPostId={setPostId}
           />

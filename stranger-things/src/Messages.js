@@ -25,10 +25,11 @@ const useStyles = makeStyles({
 
 
 
-const Messages = (props, setMessage, message) => {
+const Messages = (props) => {
     const { loginToken } = props;
     const { postId } = useParams();
     const [post, setPost] = useState({});
+    const [message, setMessage] = useState("");
 
     const classes = useStyles();
 
