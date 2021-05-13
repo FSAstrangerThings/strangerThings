@@ -81,9 +81,6 @@ function Register( { username, password, setUsername, setPassword, setregisterTo
 
     const [confirmPassword, setconfirmPassword] = useState("");
 
-    if (registerToken) {
-        return <Redirect to="/" />
-    }
 
 
     return (
