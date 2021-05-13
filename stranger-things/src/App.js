@@ -33,9 +33,9 @@ const Secured = ({
   setUserPosts,
 }) => {
   console.log('SECURED', loginToken, storeloginUser)
-  // if (!loginToken && !storeloginUser) {
-  //   return <Redirect to='/' />
-  // }
+  if (!loginToken && !storeloginUser) {
+    return <Redirect to='/' />
+  }
   return (
     <>
       <Header loginToken={loginToken} />
